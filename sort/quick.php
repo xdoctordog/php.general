@@ -1,5 +1,12 @@
 <?php
 
+/**
+ * Split array.
+ *
+ * @param array $array
+ * @param int $moveBorder
+ * @return array
+ */
 function splitArray(array $array, int $moveBorder = 0): array
 {
     $length = count($array);
@@ -16,6 +23,13 @@ function splitArray(array $array, int $moveBorder = 0): array
     return [$leftArray, $rightArray];
 }
 
+/**
+ * Compare and change places.
+ *
+ * @param array $array
+ * @param bool $hasPermutations
+ * @return array
+ */
 function compareAndChange(array $array, bool &$hasPermutations): array
 {
     $length = count($array);
@@ -39,6 +53,12 @@ function compareAndChange(array $array, bool &$hasPermutations): array
     return $array;
 }
 
+/**
+ * Quick sort.
+ *
+ * @param array $array
+ * @return array
+ */
 function quickSort(array $array): array
 {
     $length = count($array);
