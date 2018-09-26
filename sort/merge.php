@@ -1,6 +1,8 @@
 <?php
 
 /**
+ * Sort merge.
+ *
  * @param array $array
  * @param bool  $mergeThese
  *
@@ -33,7 +35,7 @@ function sortMerge(array $array): array
 }
 
 /**
- * Merge sorted arrays
+ * Merge sorted arrays.
  *
  * @param $arrayA
  * @param $arrayB
@@ -112,10 +114,5 @@ while ($i++ < 10) {
   $array[] = mt_rand(1, 99);
 }
 echo '<pre>';
-
-//$array = [8, 0, 6, 9, 3];
 var_dump($array);
 var_dump(sortMerge($array));
-//var_dump(mergeSortedArrays([3, 6, 10], [5, 7, 12]));
-//var_dump(mergeSortedArrays([1], [5, 3]));
-//var_dump(mergeSortedArrays([7, 4, 1, 8 ], [3]));
