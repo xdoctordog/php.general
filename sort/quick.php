@@ -1,71 +1,88 @@
 <?php
 
-function quickSort(array $array):array
+function splitArray(array $array, int $moveBorder = 0): array
 {
-      var_dump([
-        'IN $array' => $array,
-      ]);
-  $length = count($array);
+    $length = count($array);
+    $middleKey = (int)($length / 2) + $moveBorder;
+    $leftArray = [];
+    $rightArray = [];
+    for ($v = 0; $v < $middleKey; $v++) {
+        $leftArray[] = $array[$v];
+    }
+    for ($v = $middleKey; $v < $length; $v++) {
+        $rightArray[] = $array[$v];
+    }
 
-  if ($length > 1) {
+    return [$leftArray, $rightArray];
+}
+
+function compareAndChange(array $array, bool &$hasPermutations): array
+{
+    $length = count($array);
     $middleKey = (int)($length / 2);
-    $flag = $length % 2;
-    for ($leftSideKey = 0; $leftSideKey < $middleKey; $leftSideKey ++) {
-      $rightSideKey = ($middleKey * 2) - $leftSideKey;
-      if (!$flag) {
-        $rightSideKey --;
-      }
 
-//      exit;
-      if ($array[$leftSideKey] > $array[$rightSideKey]) {
-        $bufferValue = $array[$leftSideKey];
-        $array[$leftSideKey] = $array[$rightSideKey];
-        $array[$rightSideKey] = $bufferValue;
-      }
+    for ($leftSideKey = 0; $leftSideKey < $middleKey; $leftSideKey++) {
+        $rightSideKey = ($middleKey * 2) - $leftSideKey;
+        if (!($length % 2)) {
+            $rightSideKey--;
+        }
+        if (isset($array[$leftSideKey]) && isset($array[$rightSideKey])) {
+            if ($array[$leftSideKey] > $array[$rightSideKey]) {
+                $hasPermutations = true;
+                $bufferValue = $array[$leftSideKey];
+                $array[$leftSideKey] = $array[$rightSideKey];
+                $array[$rightSideKey] = $bufferValue;
+            }
+        }
     }
 
-      var_dump([
-          'OUT $array' => $array,
-//          '$middleKey' => $middleKey,
-//          '$leftSideKey' => $leftSideKey,
-//          '$rightSideKey' => $rightSideKey,
-      ]);
-//      exit;
+    return $array;
+}
 
-    if ($length > 2) {
-      $leftArray = [];
-      $rightArray = [];
-        for ($v = 0; $v < $middleKey; $v ++) {
-          $leftArray[] = $array[$v];
-        }
-        for ($v = $middleKey; $v < $length; $v ++) {
-          $rightArray[] = $array[$v];
-        }
-        $_leftArray = quickSort($leftArray);
-        $_rightArray = quickSort($rightArray);
+function quickSort(array $array): array
+{
+    $length = count($array);
 
-        $lengthRightArray = count($_rightArray);
-        for ($iRight = 0; $iRight < $lengthRightArray; $iRight ++) {
-          $_leftArray[] = $_rightArray[$iRight];
+    if ($length > 1) {
+
+        // Init value
+        $hasPermutations = true;
+        while ($hasPermutations) {
+            $hasPermutations = false;
+
+            $array = compareAndChange($array, $hasPermutations);
+
+            // Let's split the array on parts
+            if ($length > 2) {
+                $moveBorder = 0;
+                while ($moveBorder <= 1) {
+                    list($leftArray, $rightArray) = splitArray($array, $moveBorder);
+                    $_leftArray = quickSort($leftArray);
+                    $_rightArray = quickSort($rightArray);
+
+                    $lengthRightArray = count($_rightArray);
+                    for ($iRight = 0; $iRight < $lengthRightArray; $iRight++) {
+                        $_leftArray[] = $_rightArray[$iRight];
+                    }
+                    $array = $_leftArray;
+                    $moveBorder++;
+                }
+            }
+
         }
-        $array = $_leftArray;
+
     }
-  }
 
-  return $array;
+    return $array;
 }
 
 $array = [];
-$i     = 0;
+$i = 0;
 while ($i++ < 10) {
-  $array[] = mt_rand(1, 99);
+    $array[] = mt_rand(1, 99);
 }
 
-$array = [7, 3, 9, 5, 0, 2, 4, 1, 6, 8];
-
 echo '<pre>';
-//var_dump($array);
-//quickSort($array);
-var_dump($array = quickSort($array));
-var_dump($array = quickSort($array));
+var_dump($array);
+var_dump(quickSort($array));
 
