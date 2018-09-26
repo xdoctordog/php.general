@@ -8,15 +8,6 @@
  */
 function sortMerge(array $array): array
 {
-  $count = count($array);
-//    var_dump([
-//      '$count' => $count,
-//      '$array' => $array,
-//      'count($array)' => count($array),
-//    ]);
-//
-//    exit;
-
   if (count($array) <= 1) {
 
     return $array;
@@ -128,4 +119,3 @@ var_dump(sortMerge($array));
 //var_dump(mergeSortedArrays([3, 6, 10], [5, 7, 12]));
 //var_dump(mergeSortedArrays([1], [5, 3]));
 //var_dump(mergeSortedArrays([7, 4, 1, 8 ], [3]));
-
